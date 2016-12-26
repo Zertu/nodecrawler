@@ -1,52 +1,47 @@
-var http = require('http')
-var urls=[]
-var cheerio = require('cheerio');
-var fs =require('fs')
-var u=130
+const http = require('http'),
+	cheerio = require('cheerio'),
+	fs = require('fs'),
+	async = require('async')
+
+let pagenumber = -1
 
 
-	function wir(u){
-		http.get('http://www.mmxyz.net/rosi-'+u+'/',function (res) {
-		var html = '';
-		res.on('data',function(data){
-			html+=data;
-		})
-	
-		res.on('end',function(){
-			var img = getimg(html);
-			img.unshift("<!DOCTYPE html><html><head><meta charset='utf-8'><title></title></head><body>");
-			img.push('</body></html>')
-			fs.writeFile(''+u+'.html', img, function(args){
-				// body
-				if(args)throw args;
-				if(u<1700){			
-				console.log(u)
-				return wir(++u)
+function wir() {
+	async.whilst(
+		() => {
+			return pagenumber < 170
+		},
+		fn => {
+			pagenumber++
+			let url ='http://bbs.tech-food.com/showforum-17-' + pagenumber + '.html'
+			http.get(url, res => {
+				if(res.statusCode===200){
+					let html = ''
+				res.on('data', function (data) {
+					html += data;
+				})
+				res.on('end', function () {
+					let $ = cheerio.load(html)
+					console.log($('.separation').nextAll().html())
+				})
+				setTimeout(fn, 500)
+				}else{
+					console.error('访问'+url+'时失败。状态码为'+res.statusCode)
+				}
+				
+			})
+		},
+		err => {
+			if(err){
+				console.log(err)
 			}
 			else{
-				console.log('完成')
+	console.log('成功')
 			}
-			})
-		})
-	}).on('error',function(e){
-		console.log(e)
-	})
+		}
+	)
 }
 
-function getimg(html){
-	var img=[]
-	var $ = cheerio.load(html);
-	var dt =  $('dt')
-
-	dt.each(function(i,elem){
-		var imglink=$(this).children('a').attr('href')
-		var str="<img src='"+imglink+"' />"
-		img.push(str)
-	})
-
-	return img
+module.exports = {
+	start: wir
 }
-
-wir(u)
-
-
