@@ -1,4 +1,4 @@
-const crawler =require ('./crawler.js')
+const urlgetter =require ('./urlgetter'),
+    fs= require('fs')
 
-
-crawler.start()
+let urls = urlgetter.start()
