@@ -1,0 +1,25 @@
+{
+  "name": "crawler",
+  "version": "1.0.0",
+  "description": "毕业设计",
+  "main": "main.js",
+  "dependencies": {
+    "async": "^2.1.4",
+    "cheerio": "^0.22.0",
+    "mysql": "^2.12.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zertu/nodecrawler.git"
+  },
+  "author": "zertu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Zertu/nodecrawler/issues"
+  },
+  "homepage": "https://github.com/Zertu/nodecrawler#readme"
+}
