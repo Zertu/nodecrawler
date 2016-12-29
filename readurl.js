@@ -31,10 +31,10 @@ let pagereader = (urldata) => {
                     })
                     res.on('end', function () {
                         let $ = cheerio.load(html)
-                        let title = $('ts z').attr('title')
+                        let title = $('.ts').children().first().attr('title')
                         $('.t_msgfont').each(function (index) {
                             writeintoSql(urldata[count], title, index, $(this).text())
-                            if(index===$('.t_msgfont').length){
+                            if(index===$('.t_msgfont').length-1){
                                  setTimeout(fn, 1)
                             }
                         })
@@ -57,7 +57,7 @@ let pagereader = (urldata) => {
 
 
 function writeintoSql(url, title, floor, content, fn) {
-    let sqlstr = 'insert into Post (url,title,floor,content) values ("' + url + '",' + title + ',' + floor + ',' + content + ')'
+    let sqlstr = 'insert into Post (url,title,floor,content) values ("' + url + '","' + title + '",' + floor + ',"' + content + '")'
     mysqlcon.sqlquery(sqlstr, rows => {
         if (rows) {}
     })
