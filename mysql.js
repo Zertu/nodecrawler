@@ -20,3 +20,7 @@ let sqlquery = (sqlstr,callback)=>{
         })
     })
 }
+
+module.exports={
+    sqlquery:sqlquery
+}

@@ -1,4 +1,8 @@
-const urlgetter =require ('./urlgetter'),
-    fs= require('fs')
+const urlgetter = require('./urlgetter'),
+    fs = require('fs')
+readurl = require('./readurl')
 
-let urls = urlgetter.start()
+
+readurl.readurl(data => {
+    readurl.pagereader(data)
+})

@@ -2,6 +2,7 @@ const http = require('http'),
 	cheerio = require('cheerio'),
 	async = require('async'),
 	fs=require('fs'),
+	mysql = require('./mysql.js')
 broadcastarr = ['/announcement.aspx#2',
 	'/showtopic-6363.html',
 	'/showtopic-12543.html',
@@ -39,7 +40,7 @@ function getallurl() {
 									isbroadcast = true
 								}
 							}
-							if (!isbroadcast) hrefarr[pagenumber].push('http://bbs.tech-food.com' + href)
+							if (!isbroadcast) hrefarr[pagenumber].push('http://bbs.tech-food.com' + href+'`')
 						})
 
 					})
