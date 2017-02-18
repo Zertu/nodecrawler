@@ -4,7 +4,7 @@ const http = require('http'),
 let i = 0,
 	index = 130,
 	url = ''
-cccc(index)
+getimg(index)
 
 function getsrc(html) {
 	let $ = cheerio.load(html)
@@ -41,13 +41,13 @@ function downloadjpg(temp, i, index) {
 			})
 		} else {
 			console.log('完成')
-			return cccc(++index)
+			return getimg(++index)
 		}
 	})
 
 }
 
-function cccc(index) {
+function getimg(index) {
 	if (index < 1801) {
 		fs.readFile('' + index + '.html', 'utf-8', function (err, data) {
 			if (err) {
@@ -60,4 +60,8 @@ function cccc(index) {
 	} else {
 		console.log('读取出错')
 	}
+}
+
+module.exports={
+	getimg:getimg
 }
