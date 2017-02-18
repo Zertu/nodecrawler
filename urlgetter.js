@@ -14,17 +14,17 @@ let pagenumber = -1,
 	hrefarr = []
 
 
-function getallurl() {
+function getallurl(fn) {
 	async.whilst(
 		() => {
-			return pagenumber < 170
+			return pagenumber < 172
 		},
 		fn => {
 			pagenumber++
 			hrefarr[pagenumber] = []
 			let url = 'http://bbs.tech-food.com/showforum-17-' + pagenumber + '.html'
 			http.get(url, res => {
-				console.log('爬取中..................................................当前进度为' + (pagenumber * 100 / 171).toFixed(2) + '%')
+				console.log('爬取中..................................................当前进度为' + (pagenumber * 100 / 173).toFixed(2) + '%')
 				if (res.statusCode === 200) {
 					let html = ''
 					res.on('data', function (data) {
@@ -62,6 +62,9 @@ function getallurl() {
 						console.error(err)
 					} else {
 						console.log('成功')
+						if(fn){
+							fn()
+						}
 					}
 				})
 				return hrefarr
