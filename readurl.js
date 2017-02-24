@@ -33,9 +33,9 @@ let pagereader = (urldata) => {
                         let $ = cheerio.load(html)
                         let title = $('.ts').children().first().attr('title')
                         $('.t_msgfont').each(function (index) {
-                            writeintoSql(urldata[count], title, index, $(this).text())
+                            writeintoSql(urldata[count], title, index, $(this).text().trim())
                             if(index===$('.t_msgfont').length-1){
-                                 setTimeout(fn, 1)
+                                 setTimeout(fn, 100)
                             }
                         })
                     })
