@@ -11,7 +11,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "mmxyz":"node ./mmxyz/crawler.js"
+    "mmxyz":"node ./mmxyz/crawler.js",
+    "craw":"node main.js"
   },
   "repository": {
     "type": "git",
