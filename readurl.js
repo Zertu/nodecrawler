@@ -23,7 +23,7 @@ let pagereader = (urldata) => {
         fn => {
             count++
             http.get(urldata[count], res => {
-                console.log('爬取' + urldata[count] + '中..................................................当前进度为' + (count * 100 / urldata.length).toFixed(2) + '%')
+                // console.log('爬取' + urldata[count] + '中..................................................当前进度为' + (count * 100 / urldata.length).toFixed(2) + '%')
                 if (res.statusCode === 200) {
                     let html = ''
                     res.on('data', function (data) {
@@ -32,7 +32,6 @@ let pagereader = (urldata) => {
                     res.on('end', function () {
                         let $ = cheerio.load(html)
                         let title = $('.ts').children().first().attr('title')
-                        console.log(title)
                         $('.t_msgfont').each(function (index) {
                             writeintoSql(urldata[count], title, index, $(this).text().trim())
                             if(index===$('.t_msgfont').length-1){
@@ -58,10 +57,11 @@ let pagereader = (urldata) => {
 
 
 function writeintoSql(url, title, floor, content, fn) {
-    let sqlstr = 'insert into foodtech (url,title,floor,content) values ("' + url + '","' + title + '",' + floor + ',"' + encode(content) + '")'
+    let sqlstr = 'insert into FoodTech (url,title,floor,content) values ("' + url + '","' +encode(title) + '",' + floor + ',"' + encode(content) + '")'
     mysqlcon.sqlquery(sqlstr, rows => {
         if (rows) {
-            console.log('写入'+url+'成功')
+            console.log(rows.insertId)
+            // console.log('写入'+url+'成功')
         }else{
             console.log('出错了\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
         }
@@ -69,7 +69,9 @@ function writeintoSql(url, title, floor, content, fn) {
 }
 
 function encode(str){
-    return str.replace(/\"/g,"“");//替换半角单引号为全角单引号
+    let b =str.replace(/\'/g,'’')
+    let s = b.replace(/\"/g,"“")//替换半角单引号为全角单引号
+     return s.replace(/\\/g,' ')
 }
 
 
@@ -77,3 +79,5 @@ module.exports = {
     readurl: readurl,
     pagereader: pagereader,
 }
+
+                                                  

@@ -7,6 +7,11 @@ let urls = [],
 
 wir(u)
 
+/**
+ * 这个方法是用来爬取每个网址html内容
+ * 
+ * @param {number} 传入url的位置
+ */
 function wir(u) {
 	http.get('http://www.mmxyz.net/rosi-' + u + '/', res => {
 		if (res.statusCode == 200) {
@@ -41,14 +46,20 @@ function wir(u) {
 	})
 }
 
+/**
+ * 爬取每张页面中所有img标签的src
+ * 
+ * @param {string} html字符串
+ * @returns 
+ */
 function getimgsrc(html) {
 	//cherrio获取全部的图片地址
 	let img = []
-	let $ = cheerio.load(html)
-	let dt = $('dt')
+	, $ = cheerio.load(html)
+	, dt = $('dt')
 	dt.each(function (i, elem) {
 		let imglink = $(this).children('a').attr('href')
-		let str = "<img src='" + imglink + "' />"
+		, str = "<img src='" + imglink + "' />"
 		img.push(str)
 	})
 
