@@ -15,7 +15,7 @@ const mysql = require('mysql'),
  * @param {String} sqlstr sql语句
  * @param {Function} callback 完成后执行的回调
  */
-let sqlquery = (sqlstr, callback) => {
+function sqlquery(sqlstr, callback) {
     pool.getConnection((err, con) => {
         if (err) {
             console.error(err)
