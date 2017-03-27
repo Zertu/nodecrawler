@@ -6,4 +6,3 @@ readurl = require('./readurl')
         readurl.pagereader(data)
     
 })
-
