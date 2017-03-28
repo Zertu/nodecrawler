@@ -74,7 +74,7 @@ function pagereader(urldata)  {
  * @param {String} content 评论内容
  */
 function writeintoSql(url, title, floor, content) {
-    let sqlstr = 'insert into FoodTech (url,title,floor,content) values ("' + url + '","' +encode(title) + '",' + floor + ',"' + encode(content) + '")'
+    let sqlstr = 'insert into Post (url,title,floor,content) values ("' + url + '","' +encode(title) + '",' + floor + ',"' + encode(content) + '")'
     mysqlcon.sqlquery(sqlstr, rows => {
         if (rows) {
             console.log(rows.insertId)
