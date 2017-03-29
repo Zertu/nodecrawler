@@ -1,11 +1,21 @@
-exports=module.exports=function series(looptimes,func,delay=200,final=function(){}) {
-  if(looptimes>0) {
+exports=/**
+ * async循环控制
+ * 
+ * @param {number} looptimes 要循环的次数
+ * @param {function} func 执行循环时要进行的函数
+ * @param {function} [final=function(){}] 完成后的回调
+ * @param {number} [delay=200] 
+ * @returns 
+ */
+module.exports=function series(looptimes,func,final=function(){},delay=200) {
+
+  if(looptimes>=0) {
     async(looptimes,delay, function() {
       func(looptimes)
-      return series(--looptimes,func,delay)
+      series(--looptimes,func,final,delay)
     })
   } else {
-    return final()
+    final()
   }
 }
 
