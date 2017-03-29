@@ -1,9 +1,9 @@
 exports=/**
  * async循环控制
  * 
- * @param {number} looptimes 要循环的次数
- * @param {function} func 执行循环时要进行的函数
- * @param {function} [final=function(){}] 完成后的回调
+ * @param {Number} looptimes 要循环的次数
+ * @param {Function} func 执行循环时要进行的函数
+ * @param {Function} [final=function(){}] 完成后的回调
  * @param {number} [delay=200] 
  * @returns 
  */

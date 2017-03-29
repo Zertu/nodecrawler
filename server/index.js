@@ -1,15 +1,9 @@
-// const app = require('koa')(),
-// router = require('koa-router')()
-// fs= require('fs'),
-// readurl=require('./Data/readurl'),
-urlgetter=require('./Data/urlgetter')
+// const app = require('koa')(), router = require('koa-router')() fs=
+// require('fs'), readurl=require('./Data/readurl'),
+urlgetter = require('./Data/urlgetter'), {readurl, pagereader} = require('./Data/readurl')
 
-urlgetter.start(()=>{
-    console.log('ok')
+readurl().then(data => {
+    pagereader(data)
 })
-// router.get('/getUrl', function *(next) {
-//     })
- 
-// app
-//   .use(router.routes())
-//   .use(router.allowedMethods())
+// readurl.pagereader(readurl.readurl()) router.get('/getUrl', function *(next)
+// {     }) app   .use(router.routes())   .use(router.allowedMethods())
