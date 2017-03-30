@@ -1,22 +1,24 @@
 const koa = require('koa'),
     app = new koa(),
     router = require('koa-router')(),
-    fs = require('fs'), {start} = require('./Data/urlgetter'), 
+    fs = require('fs'), {start} = require('./Data/urlgetter'),
     {readurl, pagereader} = require('./Data/readurl')
 
 app
     .use(router.routes())
     .use(router.allowedMethods())
 router.get('/getUrl', async(ctx, next) => {
-    console.log(ctx)
-    await start(result => {
-        console.log(result)
-        if (result.length) {
-           return ctx.body = 'ok'
-        } else {
-           return ctx.body = 'fail'
-        }
-    })
+    let result
+    try {
+        result = await start()
+    } catch (e) {
+        ctx.body=e
+    }
+    if (result.length) {
+        return ctx.body = 'ok'
+    } else {
+        return ctx.body = 'fail'
+    }
 })
 router.get('/getData', async(ctx, next) => {
     readurl().then(async result => {
