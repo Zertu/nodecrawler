@@ -46,7 +46,7 @@ async function getallurl(fn) {
 						console.error(err)
 				} else {
 						if (fn) {
-								fn()
+								fn(hrefarr)
 						} else {
 								console.log('成功')
 						}

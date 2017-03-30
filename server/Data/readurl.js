@@ -20,6 +20,7 @@ function readFile(fileName, encode) {
  * 读取txt中的url
  *
  * @param {Function} fn
+ * @returns {Array}
  */
 async function readurl() {
     let data = await readFile('./urls.txt', 'utf-8')

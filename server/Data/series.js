@@ -7,16 +7,16 @@ exports=/**
  * @param {number} [delay=200] 
  * @returns 
  */
-module.exports=function series(looptimes,func,final=function(){},delay=200) {
+module.exports=function series(looptimes,func,delay=200) {
 
-  if(looptimes>=0) {
+  if(looptimes>0) {
     async(looptimes,delay, function() {
       func(looptimes)
       series(--looptimes,func,final,delay)
     })
   } else {
-    final()
-  }
+      return
+    }
 }
 
 function async(arg, delay,callback) {

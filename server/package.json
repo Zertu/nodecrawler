@@ -9,9 +9,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "koa": "^2.2.0",
-    "koa-router": "^5.4.0",
     "cheerio": "^0.22.0",
+    "koa": "^2.2.0",
+    "koa-router": "^7.1.0",
     "mysql": "^2.12.0"
   }
 }
