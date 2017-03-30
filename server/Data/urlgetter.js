@@ -43,13 +43,13 @@ function getallurl() {
 								}
 						})
 				})
-				if (!result) {
+				if (result) {
 						try {
 								let err = await fs.writeFile('urls.txt', hrefarr)
 						} catch (e) {
 								reject(e)
 						}
-						console.log(ok)
+						console.log('ok')
 						resolve(hrefarr)
 				}
 		})

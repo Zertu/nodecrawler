@@ -1,8 +1,7 @@
 const koa = require('koa'),
     app = new koa(),
     router = require('koa-router')(),
-    fs = require('fs'), {start} = require('./Data/urlgetter'),
-    {readurl, pagereader} = require('./Data/readurl')
+    fs = require('fs'), {start} = require('./Data/urlgetter'), {readurl, pagereader} = require('./Data/readurl')
 
 app
     .use(router.routes())
@@ -12,7 +11,7 @@ router.get('/getUrl', async(ctx, next) => {
     try {
         result = await start()
     } catch (e) {
-        ctx.body=e
+        ctx.body = e
     }
     if (result.length) {
         return ctx.body = 'ok'
@@ -21,16 +20,18 @@ router.get('/getUrl', async(ctx, next) => {
     }
 })
 router.get('/getData', async(ctx, next) => {
-    readurl().then(async result => {
-        if (result.length) {
-            await getallurl()
-            await next()
-            ctx.body = 'ok'
-        } else {
-            ctx.body = 'fail'
-        }
-    })
-
+    let result
+    try {
+        result = await readurl()
+    } catch (e) {
+        ctx.body = e
+    }
+    if (result.length) {
+        await pagereader(result)
+        ctx.body = 'ok'
+    } else {
+        ctx.body = 'fail'
+    }
 })
 
 app.listen(3000, () => {

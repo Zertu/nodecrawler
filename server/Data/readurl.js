@@ -6,13 +6,14 @@ const fs = require('fs'),
     series = require('./series')
 
 function readFile(fileName, encode) {
-    return new Promise( (resolve, reject)=> {
-        fs
-            .readFile(fileName, encode, (error, data)=> {
-                if (error) 
-                    reject(error)
+    return new Promise((resolve, reject) => {
+        fs.readFile(fileName, encode, (error, data) => {
+            if (error) 
+                reject(error)
+            else {
                 resolve(data)
-            });
+            }
+        });
     });
 };
 
@@ -22,9 +23,16 @@ function readFile(fileName, encode) {
  * @param {Function} fn
  * @returns {Array}
  */
-async function readurl() {
-    let data = await readFile('./urls.txt', 'utf-8')
-    return data.split(',')
+function readurl() {
+    let data
+    return new Promise(async(res, rej) => {
+        try {
+            data = await readFile('./urls.txt', 'utf-8')
+        } catch (e) {
+            rej(e)
+        }
+        res(data.split(','))
+    })
 }
 
 /**
@@ -32,34 +40,35 @@ async function readurl() {
  *
  * @param {Array} url中的数据
  */
-async function pagereader(urldata) {
-    let count = urldata.length
-    await series(urldata.length, times => {
-        http.get(urldata[count - times], res => {
-            if (res.statusCode === 200) {
-                let html = ''
-                res.on('data', function (data) {
-                    html += data;
-                })
-                res.on('end', function () {
-                    let $ = cheerio.load(html)
-                    let title = $('.ts')
-                        .children()
-                        .first()
-                        .attr('title')
-                    $('.t_msgfont').each(function (index) {
-                        writeintoSql(urldata[count - times], title, index, $(this).text().trim())
-                        if (index === $('.t_msgfont').length - 1) {
-                            return
-                        }
+function pagereader(urldata) {
+    return new Promise(async(resolve, reject) => {
+        let count = urldata.length
+        await series(urldata.length, async times => {
+            await http.get(urldata[times], res => {
+                if (res.statusCode === 200) {
+                    let html = ''
+                    res.on('data', function (data) {
+                        html += data;
                     })
-                })
-            } else {
-                console.error(res.statusCode)
-            }
+                    res.on('end', function () {
+                        let $ = cheerio.load(html)
+                        let title = $('.ts')
+                            .children()
+                            .first()
+                            .attr('title')
+                        $('.t_msgfont').each(function (index) {
+                            writeintoSql(urldata[times], title, index, $(this).text().trim())
+                            if (index === $('.t_msgfont').length - 1) {
+                                return
+                            }
+                        })
+                    })
+                } else {
+                    reject(res.statusCode)
+                }
+            })
         })
-    }, () => {
-        console.log('完成')
+        resolve()
     })
 }
 
