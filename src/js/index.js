@@ -4,9 +4,7 @@ const fs = require('fs'),
     getTime = require('./src/js/Data/getTime')
 window.onload = () => {
     const chart = echarts.init(document.getElementById('data'))
-    document
-        .getElementById('start')
-        .addEventListener('click', async function () {
+    document.getElementById('start').addEventListener('click', async function () {
             let result
             try {
                let timer= setInterval(async()=>{
