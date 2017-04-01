@@ -65,7 +65,7 @@ function getallurl() {
                 }
             })
         })
-        timer=null
+        report=null
         if (result) {
             try {
                 let err = await writeFile('urls.txt', hrefarr)

@@ -15,10 +15,10 @@ window.onload = () => {
                     getUrl.series[0].data=data.map((i,index)=>i.split(',')[1]-(data[index-1]?data[index-1].split(',')[1]:0))
                     getUrl.xAxis.data=data.map(i=>i.split(',')[0])
                     getUrl.dataZoom[0].startValue=getTime().toString()
-                    console.log(getUrl.series[0].data)
                     chart.setOption(getUrl)
                 },5000)
                 result = await start()
+                clearInterval(timer)
                 timer=null
             } catch (e) {
             }
