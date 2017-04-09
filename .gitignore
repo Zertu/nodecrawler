@@ -24,4 +24,4 @@ $RECYCLE.BIN/
 
 #config
 mysqlconfig.js
-./build
+build/
