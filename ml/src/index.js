@@ -1,31 +1,25 @@
-const http = require('http'),
+const getResult = require('./src/getResult'),
     ctx = document.getElementById('ctx'),
     mysql = require('./src/mysql'),
-    writeFile=require('./src/writeFile')
+    writeFile = require('./src/writeFile')
 document
     .getElementById('submit')
-    .addEventListener('click',async e => {
-        const res = await mysql('select * from FoodTech')
-        await writeFile('table.txt',res.join('`'))
-        console.log(res)
-        const url = 'http://139.224.232.97:8080?ctx=' + encodeURI(ctx.value)
-        http.get(url, res => {
-            let result = ''
-            res.on('data', data => result += data)
-            res.on('end', () => {
-                switch (result.trim()) {
-                    case 'positive':
-                        document
-                            .querySelector('p')
-                            .innerHTML = '积极情绪'
-                        break
-                    case 'negative':
-                        document
-                            .querySelector('p')
-                            .innerHTML = '消极情绪'
-                        break
-                }
-
-            })
+    .addEventListener('click', async e => {
+        let [rows,
+            _] = await mysql('select * from FoodTech limit 1,10')
+        rows = rows.map(row => {
+            let temp = ''
+            for (let i in row) {
+                temp += (i + ':' + row[i] + ',')
+            }
+            return temp
         })
+        const url = []
+        for (let i = 0; i < rows.length; i++) {
+            url.push('http://139.224.232.97:8080?ctx=' + encodeURI(rows[i]))
+        }
+        for (let i = 0; i < url.length; i++) {
+            const result = await getResult(url[i])
+            await mysql('insert into results result VALUES (' + result + ') ')
+        }
     }, false)
