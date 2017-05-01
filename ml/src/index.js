@@ -1,10 +1,14 @@
 const http = require('http'),
-    ctx = document.getElementById('ctx')
+    ctx = document.getElementById('ctx'),
+    mysql = require('./src/mysql'),
+    writeFile=require('./src/writeFile')
 document
     .getElementById('submit')
-    .addEventListener('click', e => {
+    .addEventListener('click',async e => {
+        const res = await mysql('select * from FoodTech')
+        await writeFile('table.txt',res.join('`'))
+        console.log(res)
         const url = 'http://139.224.232.97:8080?ctx=' + encodeURI(ctx.value)
-        console.log(url)
         http.get(url, res => {
             let result = ''
             res.on('data', data => result += data)
