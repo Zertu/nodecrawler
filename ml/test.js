@@ -3,19 +3,9 @@ const readFile = require('./src/readFile'),
     writeFile = require('./src/writeFile')
 
 async function a() {
-    const file = await readFile('./data/test.txt')
-    let arr = file.split("`'`,` `'`")
-    arr = arr.map(i => {
-        let a = i.split('`:` `')
-        return a.map(j => j.split('`').join(''))
-    })
-    arr[0][0] = '1'
-    arr[arr.length - 1][1] = 'positive'
-    return arr
+    const file = await readFile('./data/out.txt')
+    let arr = JSON.stringify(file)
+    writeFile('./data/result.json',JSON.stringify(arr))
 }
 
-a().then(arr => {
-    arr = arr.map(_ => ({index: _[0], result: _[1]}))
-    console.log(arr)
-    writeFile('a.json', JSON.stringify(arr))
-})
+a()
