@@ -4,8 +4,9 @@ const readFile = require('./src/readFile'),
 
 async function a() {
     const file = await readFile('./data/out.txt')
-    let arr = JSON.stringify(file)
-    writeFile('./data/result.json',JSON.stringify(arr))
+    let result = JSON.parse(file)
+    result=result['RECORDS']
+    writeFile('./data/result.json',JSON.stringify(result))
 }
 
 a()
