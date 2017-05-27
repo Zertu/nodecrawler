@@ -51,17 +51,17 @@ function pagereader(urldata) {
                         html += data;
                     })
                     res.on('end', function () {
-                        let $ = cheerio.load(html)
-                        let title = $('.ts')
-                            .children()
-                            .first()
-                            .attr('title')
-                        $('.t_msgfont').each(function (index) {
-                            writeintoSql(urldata[times], title, index, $(this).text().trim())
-                            if (index === $('.t_msgfont').length - 1) {
-                                return
-                            }
-                        })
+                    let $ = cheerio.load(html)
+                    let title = $('.ts')
+                        .children()
+                        .first()
+                        .attr('title')
+                    $('.t_msgfont').each(function (index) {
+                        writeintoSql(urldata[times], title, index, $(this).text().trim())
+                        if (index === $('.t_msgfont').length - 1) {
+                            return
+                        }
+                    })
                     })
                 } else {
                     reject(res.statusCode)

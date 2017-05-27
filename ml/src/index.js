@@ -3,7 +3,7 @@ const http = require('http'),
 document
     .getElementById('submit')
     .addEventListener('click', e => {
-        const url = 'http://139.224.232.97:8080?ctx=' + encodeURI(ctx.value)
+        const url = 'http://139.224.232.97:8080/a?ctx=' + encodeURI(ctx.value)
         console.log(url)
         http.get(url, res => {
             let result = ''
